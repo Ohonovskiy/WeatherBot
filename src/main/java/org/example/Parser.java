@@ -3,21 +3,20 @@ package org.example;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
-import javax.management.DynamicMBean;
 import java.io.IOException;
-import java.lang.reflect.Proxy;
+import java.net.URLEncoder;
 import java.util.Objects;
-import java.util.Scanner;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Parser {
-    public static void parse() throws IOException, InterruptedException {
-        Scanner scanner = new Scanner(System.in);
+    public static String parse(String city) throws IOException {
 
-        String city, temp, hum, wind, status, name, day;
-        city = scanner.nextLine();
+        String temp, hum, wind, status, name, day, encoded;
 
-        Document doc = Jsoup.connect("https://www.google.com/search?q="+city+" weather").get();
+        encoded = URLEncoder.encode(city+" weather", UTF_8);
+
+        Document doc = Jsoup.connect("https://www.google.com/search?q="+encoded).get();
         Element tempElem = doc.selectFirst("span.wob_t.q8U8x");
 
         temp = Objects.requireNonNull(doc.selectFirst("span.wob_t.q8U8x")).text();
@@ -28,13 +27,12 @@ public class Parser {
         day = Objects.requireNonNull(doc.selectFirst("#wob_dts")).text();
         
         if(tempElem == null){
-            System.out.println("City's not found");
-            System.exit(0);
+            return ("City's not found");
         }
 
-        System.out.println("Weather in " + name + ". ("+day+", "+status+")"+
-                "\n Temperature: " + temp + "°C" +
-                "\n Humanity: " + hum +
-                "\n Wind speed:  " + wind);
+        return ("Weather in " + name + ". ("+day+", "+status+")"+
+                "\nTemperature: " + temp + "°C" +
+                "\nHumanity: " + hum +
+                "\nWind speed:  " + wind);
     }
 }
