@@ -1,4 +1,4 @@
-package org.example;
+package org.main;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,12 +27,12 @@ public class Parser {
         day = Objects.requireNonNull(doc.selectFirst("#wob_dts")).text();
         
         if(tempElem == null){
-            return ("City's not found");
+            return ("Населений пункт не найдено");
         }
 
-        return ("Weather in " + name + ". ("+day+", "+status+")"+
-                "\nTemperature: " + temp + "°C" +
-                "\nHumanity: " + hum +
-                "\nWind speed:  " + wind);
+        return ("Погода у " + name + ". ("+day+", "+status+")"+
+                "\nТемпература: " + temp + "°C" +
+                "\nОпади: " + hum +
+                "\nВітер:  " + wind);
     }
 }
