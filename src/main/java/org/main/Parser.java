@@ -2,7 +2,6 @@ package org.main;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Objects;
@@ -17,16 +16,16 @@ public class Parser {
         encoded = URLEncoder.encode(city+" weather", UTF_8);
 
         Document doc = Jsoup.connect("https://www.google.com/search?q="+encoded).get();
-        Element tempElem = doc.selectFirst("span.wob_t.q8U8x");
 
-        temp = Objects.requireNonNull(doc.selectFirst("span.wob_t.q8U8x")).text();
-        hum = Objects.requireNonNull(doc.selectFirst("#wob_hm")).text();
-        wind = Objects.requireNonNull(doc.selectFirst("#wob_ws")).text();
-        status = Objects.requireNonNull(doc.selectFirst("#wob_dc")).text();
-        name = Objects.requireNonNull(doc.selectFirst("#wob_loc.q8U8x")).text();
-        day = Objects.requireNonNull(doc.selectFirst("#wob_dts")).text();
-        
-        if(tempElem == null){
+        temp = (Objects.requireNonNull(doc.selectFirst("span.wob_t.q8U8x"))).text();
+        hum = (Objects.requireNonNull(doc.selectFirst("#wob_hm"))).text();
+        wind = (Objects.requireNonNull(doc.selectFirst("#wob_ws"))).text();
+        status = (Objects.requireNonNull(doc.selectFirst("#wob_dc"))).text();
+        name = (Objects.requireNonNull(doc.selectFirst("#wob_loc.q8U8x"))).text();
+        day = (Objects.requireNonNull(doc.selectFirst("#wob_dts"))).text();
+
+        if(temp.equals("")){
+            System.out.println(doc);
             return ("Населений пункт не найдено");
         }
 
